@@ -1,0 +1,134 @@
+package rs.ac.bg.etf.pp1;
+
+import java_cup.runtime.*;
+import java.io.*;
+import org.apache.log4j.*;
+import rs.etf.pp1.symboltable.*;
+import rs.etf.pp1.symboltable.concepts.*;
+import rs.ac.bg.etf.pp1.ast.*;
+
+parser code {:
+		
+	Logger log = Logger.getLogger(getClass());
+	
+	boolean syntaxErrorFound = false;
+	
+	public void report_fatal_error(String message, Object info) throws java.lang.Exception
+	{
+		done_parsing();
+		report_error(message, info);
+		Tab.dump();
+	}
+	
+	public void syntax_error(Symbol cur_token)
+	{
+		report_error("Syntax error", cur_token);
+		syntaxErrorFound = true;
+	}
+	
+	public void unrecovered_syntax_error(Symbol cur_token) throws java.lang.Exception
+	{
+		report_fatal_error("Fatal error, parsing cannot continue. Aborting.", cur_token);
+	}
+	
+	public void report_error(String message, Object info)
+	{
+		StringBuilder msg = new StringBuilder(message);
+		if(info instanceof Symbol)
+		{
+			msg.append(" on line ").append(((Symbol)info).left);
+		}
+		log.error(msg.toString());
+	}
+	
+	public void report_info(String message, Object info)
+	{
+		StringBuilder msg = new StringBuilder(message);
+		if(info instanceof Symbol)
+		{
+			msg.append(" on line ").append(((Symbol)info).left);
+		}
+		log.info(msg.toString());
+	}
+	
+	public void report_debug(String message, Object info)
+	{
+		StringBuilder msg = new StringBuilder(message);
+		if(info instanceof Symbol)
+		{
+			msg.append(" on line ").append(((Symbol)info).left);
+		}
+		log.debug(msg.toString());
+	}
+:}
+
+scan with {:
+	Symbol s = this.getScanner().next_token();
+	if(s != null && s.value != null)
+		log.debug(s.toString() + " " + s.value.toString());
+	return s;
+:}
+
+
+
+/** LITERALS */
+terminal Integer NUMBER;
+terminal String CHAR;
+terminal String BOOL;
+
+
+/** PUNCTUATION */
+terminal COMMA, SEMICOLON, DOT;
+terminal RULE_END;
+
+
+/** OPERATORS */
+
+/** ARITHMETIC OPERATORS */
+terminal PLUS, MINUS, MULTUPLY, DIV, MOD;
+
+
+
+/** COMPARISON OPERATORS */
+terminal EQUAL, NOT_EQUAL, GREATER, LESS, GREATER_OR_EQUEL, LESS_OR_EQUEL;
+
+/** LOGIC OPERATORS */
+terminal AND, OR;
+
+/** ASSIGNMENT */
+terminal ASSIGN;
+
+
+/** END OF OPERATORS */
+
+
+/** PARENTHESES */
+terminal	OPEN_PARENTHESES, 	CLOSE_PARENTHESES;
+
+
+terminal String IDENT;
+
+/**
+ * END OF TERMINALS
+ */
+
+
+
+
+/** NON TERMINALS */
+
+non terminal rs.etf.pp1.symboltable.concepts.Obj Program;
+
+
+
+
+
+
+
+/* TODO optional method decl*/
+Program ::= (Program1)IDENT
+			|
+			(Program2) Program IDENT
+			;
+
+
