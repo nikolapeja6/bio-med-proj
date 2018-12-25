@@ -66,7 +66,6 @@ import org.apache.log4j.*;
 <COMMAND> ([a-z]|[A-Z])([a-z|A-Z|0-9|_])* 			{yybegin(COMMAND); return new_symbol(sym.IDENT, yytext());}
 
 <COMMAND>  [0-9]+ 							{yybegin(COMMAND); return new_symbol(sym.NUMBER, new Integer(yytext()));}
-<COMMAND>  \'[^\']\' 						{yybegin(COMMAND); return new_symbol(sym.CHAR, Character.toString(yytext().charAt(1)));}
  
 
 <COMMAND> "\r\n"		{ yybegin(YYINITIAL); return new_symbol(sym.RULE_END, "\\n");}

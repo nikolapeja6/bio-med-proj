@@ -43,16 +43,19 @@ public class Main {
 		try (BufferedReader br = new BufferedReader(new FileReader(specsFile))) {
 			Yylex lexer = new Yylex(br);
 			
+			/*
 			Symbol symbol = lexer.next_token();
 			while(symbol.sym != sym.EOF){
 				System.out.println(symbol.value.toString());
 				symbol = lexer.next_token();
 			}
+			*/
 			
 			
-			/*
 			MJParser p = new MJParser(lexer);
 	        Symbol s = p.parse();  //pocetak parsiranja
+	        
+	        /*
 	        SyntaxNode prog = (SyntaxNode)(s.value);
      
 	        log.debug("***Abstract tree***");

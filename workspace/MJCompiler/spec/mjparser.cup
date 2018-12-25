@@ -73,7 +73,6 @@ scan with {:
 
 /** LITERALS */
 terminal Integer NUMBER;
-terminal String CHAR;
 terminal String BOOL;
 
 
@@ -85,7 +84,7 @@ terminal RULE_END;
 /** OPERATORS */
 
 /** ARITHMETIC OPERATORS */
-terminal PLUS, MINUS, MULTUPLY, DIV, MOD;
+terminal PLUS, MINUS, MULTUPLY, DIV;
 
 
 
@@ -118,17 +117,154 @@ terminal String IDENT;
 /** NON TERMINALS */
 
 non terminal rs.etf.pp1.symboltable.concepts.Obj Program;
+non terminal rs.etf.pp1.symboltable.concepts.Obj Rule;
+non terminal rs.etf.pp1.symboltable.concepts.Obj Const;
+non terminal rs.etf.pp1.symboltable.concepts.Obj Condition;
+non terminal rs.etf.pp1.symboltable.concepts.Obj ConditionList;
+non terminal rs.etf.pp1.symboltable.concepts.Obj ConditionElement;
+non terminal rs.etf.pp1.symboltable.concepts.Obj CondTerm;
+non terminal rs.etf.pp1.symboltable.concepts.Obj CondTermList;
+non terminal rs.etf.pp1.symboltable.concepts.Obj CondTermElement;
+non terminal rs.etf.pp1.symboltable.concepts.Obj CondFact;
+non terminal rs.etf.pp1.symboltable.concepts.Obj CondFactList;
+non terminal rs.etf.pp1.symboltable.concepts.Obj CondFactElement;
+
+non terminal rs.etf.pp1.symboltable.concepts.Obj Value;
+non terminal rs.etf.pp1.symboltable.concepts.Obj Expr;
+non terminal rs.etf.pp1.symboltable.concepts.Obj OptionalExprList;
+non terminal rs.etf.pp1.symboltable.concepts.Obj ExprList;
+non terminal rs.etf.pp1.symboltable.concepts.Obj ExprElement;
+non terminal rs.etf.pp1.symboltable.concepts.Obj Term;
+non terminal rs.etf.pp1.symboltable.concepts.Obj TermList;
+non terminal rs.etf.pp1.symboltable.concepts.Obj TermElement;
+non terminal rs.etf.pp1.symboltable.concepts.Obj Factor;
+non terminal rs.etf.pp1.symboltable.concepts.Obj Relop;
+non terminal rs.etf.pp1.symboltable.concepts.Obj Addop;
+non terminal rs.etf.pp1.symboltable.concepts.Obj Mulop;
 
 
 
 
 
 
-
-/* TODO optional method decl*/
-Program ::= (Program1)IDENT
+Program ::= (Program1)Rule
 			|
-			(Program2) Program IDENT
+			(Program2) Program Rule
+			;
+			
+Rule ::= (Rule1) IDENT ASSIGN Condition RULE_END;
+
+
+Condition ::= 	(ConditionMultiple) CondTerm ConditionList
+				|
+				(ConditionSingle) CondTerm
+				;
+
+ConditionList ::= 	(ConditionListMultiple) ConditionList ConditionElement
+					|
+					(ConditionListSingle) ConditionElement
+					;
+					
+/*TODO generate code*/					
+ConditionElement ::= (ConditionElement1) OR CondTerm
+					;
+
+CondTerm ::= 	(CondTermMultiple) CondFact CondTermList
+				|
+				(CondTermSingle) CondFact
+				;
+
+CondTermList ::= 	(CondTermListMultiple) CondTermList CondTermElement
+					|
+					(CondTermListSingle) CondTermElement
+					;
+					
+/*TODO generate code*/					
+CondTermElement ::= (CondTermElement1) AND CondFact
+					;
+
+CondFact ::= 	(CondFactMultiple) Expr CondFactList
+				|
+				(CondFactSingle) Expr
+				;
+
+CondFactList ::= 	(CondFactListMultiple) CondFactList CondFactElement
+					|
+					(CondFactListSingle) CondFactElement
+					;
+					
+CondFactElement ::= (CondFactElement1) Relop Expr;
+
+
+
+
+
+
+
+
+Expr ::=	(ExprWithMinus) MINUS Term:term OptionalExprList
+			|
+			(ExprWithNoMinus)Term:term OptionalExprList
+			;
+			
+OptionalExprList ::= 	ExprList:list
+						|
+						/* empty */
+						;
+						
+ExprList ::= 	ExprList ExprElement
+				|
+				ExprElement
+				;
+
+
+ExprElement ::= (ExprElement1) Addop Term;
+
+Term ::= 	(MultiFactorTerm) Factor:factor TermList
+			| 
+			(SingleFactorTerm) Factor:factor
+			;
+			
+TermList ::=	(TermListMultiple) TermList TermElement
+				|
+				(TermListSingle) TermElement
+				;
+				
+TermElement ::= (TermElement1) Mulop Factor;
+			
+			
+Factor ::= (ConstFactor) Const
+			|
+			(IdentFactor) IDENT
+			;
+			
+Relop ::= 	(RelopEq) EQUAL
+			|
+			(RelopNEq) NOT_EQUAL
+			|
+			(RelopGr)GREATER
+			|
+			(RelopLs)LESS
+			|
+			(RelopGEq)GREATER_OR_EQUEL
+			|
+			(RelopLEq)LESS_OR_EQUEL
+;
+
+Addop ::= 	(AddopPlus)PLUS
+			|
+			(AddopMinus)MINUS
+			;
+			
+Mulop ::= 	(MulopMultiply)MULTUPLY
+			|
+			(MulopDiv)DIV
+			;
+
+			
+Const ::= (ConstNum) NUMBER
+			|
+			(ConstBool) BOOL
 			;
 
 
