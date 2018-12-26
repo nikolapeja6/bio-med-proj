@@ -116,31 +116,30 @@ terminal String IDENT;
 
 /** NON TERMINALS */
 
-non terminal rs.etf.pp1.symboltable.concepts.Obj Program;
-non terminal rs.etf.pp1.symboltable.concepts.Obj Rule;
-non terminal rs.etf.pp1.symboltable.concepts.Obj Const;
-non terminal rs.etf.pp1.symboltable.concepts.Obj Condition;
-non terminal rs.etf.pp1.symboltable.concepts.Obj ConditionList;
-non terminal rs.etf.pp1.symboltable.concepts.Obj ConditionElement;
-non terminal rs.etf.pp1.symboltable.concepts.Obj CondTerm;
-non terminal rs.etf.pp1.symboltable.concepts.Obj CondTermList;
-non terminal rs.etf.pp1.symboltable.concepts.Obj CondTermElement;
-non terminal rs.etf.pp1.symboltable.concepts.Obj CondFact;
-non terminal rs.etf.pp1.symboltable.concepts.Obj CondFactList;
-non terminal rs.etf.pp1.symboltable.concepts.Obj CondFactElement;
-
-non terminal rs.etf.pp1.symboltable.concepts.Obj Value;
-non terminal rs.etf.pp1.symboltable.concepts.Obj Expr;
-non terminal rs.etf.pp1.symboltable.concepts.Obj OptionalExprList;
-non terminal rs.etf.pp1.symboltable.concepts.Obj ExprList;
-non terminal rs.etf.pp1.symboltable.concepts.Obj ExprElement;
-non terminal rs.etf.pp1.symboltable.concepts.Obj Term;
-non terminal rs.etf.pp1.symboltable.concepts.Obj TermList;
-non terminal rs.etf.pp1.symboltable.concepts.Obj TermElement;
-non terminal rs.etf.pp1.symboltable.concepts.Obj Factor;
-non terminal rs.etf.pp1.symboltable.concepts.Obj Relop;
-non terminal rs.etf.pp1.symboltable.concepts.Obj Addop;
-non terminal rs.etf.pp1.symboltable.concepts.Obj Mulop;
+non terminal rs.ac.bg.etf.pp1.MyObj Program;
+non terminal rs.ac.bg.etf.pp1.MyObj Rule;
+non terminal rs.ac.bg.etf.pp1.MyObj Const;
+non terminal rs.ac.bg.etf.pp1.MyObj Condition;
+non terminal rs.ac.bg.etf.pp1.MyObj ConditionList;
+non terminal rs.ac.bg.etf.pp1.MyObj ConditionElement;
+non terminal rs.ac.bg.etf.pp1.MyObj CondTerm;
+non terminal rs.ac.bg.etf.pp1.MyObj CondTermList;
+non terminal rs.ac.bg.etf.pp1.MyObj CondTermElement;
+non terminal rs.ac.bg.etf.pp1.MyObj CondFact;
+non terminal rs.ac.bg.etf.pp1.MyObj CondFactList;
+non terminal rs.ac.bg.etf.pp1.MyObj CondFactElement;
+non terminal rs.ac.bg.etf.pp1.MyObj Value;
+non terminal rs.ac.bg.etf.pp1.MyObj Expr;
+non terminal rs.ac.bg.etf.pp1.MyObj OptionalExprList;
+non terminal rs.ac.bg.etf.pp1.MyObj ExprList;
+non terminal rs.ac.bg.etf.pp1.MyObj ExprElement;
+non terminal rs.ac.bg.etf.pp1.MyObj Term;
+non terminal rs.ac.bg.etf.pp1.MyObj TermList;
+non terminal rs.ac.bg.etf.pp1.MyObj TermElement;
+non terminal rs.ac.bg.etf.pp1.MyObj Factor;
+non terminal rs.ac.bg.etf.pp1.MyObj Relop;
+non terminal rs.ac.bg.etf.pp1.MyObj Addop;
+non terminal rs.ac.bg.etf.pp1.MyObj Mulop;
 
 
 
@@ -165,7 +164,6 @@ ConditionList ::= 	(ConditionListMultiple) ConditionList ConditionElement
 					(ConditionListSingle) ConditionElement
 					;
 					
-/*TODO generate code*/					
 ConditionElement ::= (ConditionElement1) OR CondTerm
 					;
 
@@ -179,7 +177,6 @@ CondTermList ::= 	(CondTermListMultiple) CondTermList CondTermElement
 					(CondTermListSingle) CondTermElement
 					;
 					
-/*TODO generate code*/					
 CondTermElement ::= (CondTermElement1) AND CondFact
 					;
 
@@ -194,10 +191,6 @@ CondFactList ::= 	(CondFactListMultiple) CondFactList CondFactElement
 					;
 					
 CondFactElement ::= (CondFactElement1) Relop Expr;
-
-
-
-
 
 
 
