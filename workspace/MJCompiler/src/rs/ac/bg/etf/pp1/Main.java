@@ -10,7 +10,6 @@ import org.apache.log4j.xml.DOMConfigurator;
 
 import java_cup.runtime.Symbol;
 import jdk.nashorn.internal.runtime.GlobalFunctions;
-import rs.ac.bg.etf.pp1.CounterVisitor.*;
 import rs.ac.bg.etf.pp1.ast.SyntaxNode;
 import rs.ac.bg.etf.pp1.util.Log4JUtils;
 import rs.etf.pp1.mj.runtime.Code;
@@ -21,7 +20,7 @@ import rs.etf.pp1.symboltable.concepts.Struct;
 public class Main {
 
 	public static Logger log;
-	
+
 	static {
 		DOMConfigurator.configure(Log4JUtils.instance().findLoggerConfigFile());
 		Log4JUtils.instance().prepareLogFile(Logger.getRootLogger());
@@ -46,9 +45,9 @@ public class Main {
 			Yylex lexer = new Yylex(br);
 
 			/*
-			  Symbol symbol = lexer.next_token(); while(symbol.sym != sym.EOF){
-			  System.out.println(symbol.value.toString()); symbol =
-			  lexer.next_token(); }
+			 * Symbol symbol = lexer.next_token(); while(symbol.sym != sym.EOF){
+			 * System.out.println(symbol.value.toString()); symbol =
+			 * lexer.next_token(); }
 			 */
 
 			MJParser p = new MJParser(lexer);
@@ -61,17 +60,33 @@ public class Main {
 
 			Generator codeGenerator = new Generator();
 			prog.traverseBottomUp(codeGenerator);
-			
+
 			Table.reset();
 			log.info(Table.getString());
-			
-			if(Table.ok){
-				
-				log.info("SUCCESS!");
-			}
-			else{
+
+			if (!Table.ok) {
 				log.error("Aborted.");
+				return;
 			}
+
+			int numberOfUnsetVars = Table.numberOfUnsetVariables();
+			Evaluator evaluator = new Evaluator();
+			prog.traverseBottomUp(evaluator);
+			int newNumberOfUnsetVars = Table.numberOfUnsetVariables();
+			
+			while (newNumberOfUnsetVars != numberOfUnsetVars) {
+				numberOfUnsetVars = newNumberOfUnsetVars;
+				prog.traverseBottomUp(evaluator);
+				newNumberOfUnsetVars = Table.numberOfUnsetVariables();
+			}
+			
+			Table.set();
+			log.info(Table.getString());
+			
+			
+			
+
+			log.info("SUCCESS!");
 
 		} catch (Exception e) {
 			e.printStackTrace();

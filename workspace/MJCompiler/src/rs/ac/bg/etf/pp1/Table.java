@@ -8,16 +8,18 @@ import java.util.Map;
 
 public class Table {
 	
+	public static final double MAGIC_NUMBER = -123456789;
+	
 	public static boolean ok = true;
 	
-	public static LinkedHashMap<String, Integer> tmp_table = new LinkedHashMap<>();
+	public static LinkedHashMap<String, Double> tmp_table = new LinkedHashMap<>();
 	
-	public static LinkedHashMap<String, Integer> table = new LinkedHashMap<>();
+	public static LinkedHashMap<String, Double> table = new LinkedHashMap<>();
 	public static LinkedHashSet<String> lValues = new LinkedHashSet<>();
 	
 	public static void insertRVal(String name){
 		if(!table.containsKey(name))
-			table.put(name, -123456789);
+			table.put(name, MAGIC_NUMBER);
 	}
 	
 	public static void insertLVal(String name){
@@ -34,15 +36,35 @@ public class Table {
 		Iterator it = table.entrySet().iterator();
 	    while (it.hasNext()) {
 	        Map.Entry pair = (Map.Entry)it.next();
-	        tmp_table.put((String)pair.getKey(), (Integer)(pair.getValue()));
+	        tmp_table.put((String)pair.getKey(), (Double)(pair.getValue()));
 	    }
 	}
 	
-	public static void setValue(String name, int val){
+	public static void set(){
+		table = new LinkedHashMap<>();
+		Iterator it = tmp_table.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pair = (Map.Entry)it.next();
+	        table.put((String)pair.getKey(), (Double)(pair.getValue()));
+	    }
+	}
+	
+	public static int numberOfUnsetVariables(){
+		int cnt = 0;
+		Iterator it = tmp_table.entrySet().iterator();
+	    while (it.hasNext()) {
+	        Map.Entry pair = (Map.Entry)it.next();
+	        if((Double) pair.getValue() == MAGIC_NUMBER)
+	        	cnt++;
+	    }
+	    return cnt;
+	}
+	
+	public static void setValue(String name, double val){
 			tmp_table.put(name, val);
 	}
 	
-	public static int getValue(String name){
+	public static double getValue(String name){
 		return tmp_table.get(name);
 	}
 	
