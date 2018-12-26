@@ -26,7 +26,7 @@ public class Table {
 	public static void insertLVal(String name) {
 		if (lValues.contains(name)) {
 			ok = false;
-			Main.log.error("Multiple rules for state '" + name + "'");
+			Engine.log.error("Multiple rules for state '" + name + "'");
 		}
 		insertRVal(name);
 		lValues.add(name);

@@ -2,8 +2,12 @@ package rs.ac.bg.etf.pp1;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.Reader;
+import java.io.StringReader;
+import java.nio.file.Files;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
@@ -17,22 +21,19 @@ import rs.etf.pp1.symboltable.Tab;
 import rs.etf.pp1.symboltable.concepts.Obj;
 import rs.etf.pp1.symboltable.concepts.Struct;
 
-public class Main {
+public class Engine {
 
 	public static Logger log;
+	private static SyntaxNode prog;
+	private static Evaluator evaluator = new Evaluator();
 
 	static {
 		DOMConfigurator.configure(Log4JUtils.instance().findLoggerConfigFile());
 		Log4JUtils.instance().prepareLogFile(Logger.getRootLogger());
-		log = Logger.getLogger(Main.class);
+		log = Logger.getLogger(Engine.class);
 	}
-
-	public static void main(String[] args) throws Exception {
-		if (args.length != 1) {
-			log.error("Not enough arguments supplied! Usage: MJParser <specs-file>");
-			return;
-		}
-
+	
+	public static void main(String []args){
 		File specsFile = new File(args[0]);
 		if (!specsFile.exists()) {
 			log.error("Specs file [" + specsFile.getAbsolutePath() + "] not found!");
@@ -40,20 +41,65 @@ public class Main {
 		}
 
 		log.info("Specs file: " + specsFile.getAbsolutePath());
+		
+		StringBuilder text = new StringBuilder();
+		try(BufferedReader br = new BufferedReader(new FileReader(specsFile))){
+			String line = br.readLine();
+			while(line != null ){
+				text.append(line);
+				text.append("\r\n");
+				line = br.readLine();
+			}
+		}catch(Exception e){
+			e.printStackTrace();
+		}
+		
+		log.debug(text.toString());
+		
+		initRules(text.toString());
+		
+		evaluateState();
+	}
 
-		try (BufferedReader br = new BufferedReader(new FileReader(specsFile))) {
-			Yylex lexer = new Yylex(br);
+	public static void evaluateState() {
+		int numberOfUnsetVars;
+		int newNumberOfUnsetVars;
 
-			/*
-			 * Symbol symbol = lexer.next_token(); while(symbol.sym != sym.EOF){
-			 * System.out.println(symbol.value.toString()); symbol =
-			 * lexer.next_token(); }
-			 */
+		int x = 5;
+		for (String string : Table.getInputVarList()) {
+			log.debug("==> " + string);
+			Table.setValue(string, x);
+			x *= 5;
+		}
+
+		numberOfUnsetVars = Table.numberOfUnsetVariables();
+		prog.traverseBottomUp(evaluator);
+		newNumberOfUnsetVars = Table.numberOfUnsetVariables();
+
+		while (newNumberOfUnsetVars != numberOfUnsetVars) {
+			numberOfUnsetVars = newNumberOfUnsetVars;
+			prog.traverseBottomUp(evaluator);
+			newNumberOfUnsetVars = Table.numberOfUnsetVariables();
+		}
+
+		log.info(Table.getString());
+	}
+	
+	
+
+	public static void initRules(String args) {
+		if (args == null) {
+			log.error("Invalid specs.");
+			return;
+		}
+
+		try (Reader r = new StringReader(args)) {
+			Yylex lexer = new Yylex(r);
 
 			MJParser p = new MJParser(lexer);
 			Symbol s = p.parse(); // pocetak parsiranja
 
-			SyntaxNode prog = (SyntaxNode) (s.value);
+			prog = (SyntaxNode) (s.value);
 
 			log.debug("***Abstract tree***");
 			log.debug("\n" + s.value.toString());
@@ -70,45 +116,22 @@ public class Main {
 			}
 
 			int numberOfUnsetVars = Table.numberOfUnsetVariables();
-			Evaluator evaluator = new Evaluator();
 			prog.traverseBottomUp(evaluator);
 			int newNumberOfUnsetVars = Table.numberOfUnsetVariables();
-				
+
 			while (newNumberOfUnsetVars != numberOfUnsetVars) {
 				numberOfUnsetVars = newNumberOfUnsetVars;
 				prog.traverseBottomUp(evaluator);
 				newNumberOfUnsetVars = Table.numberOfUnsetVariables();
 			}
-			
+
 			Table.set();
 			log.info(Table.getString());
-			
-			
-			int x = 5;
-			for (String string : Table.getInputVarList()) {
-				log.info("==> "+string);
-				Table.setValue(string, x);
-				x*=5;
-			}
-			
-			numberOfUnsetVars = Table.numberOfUnsetVariables();
-			prog.traverseBottomUp(evaluator);
-			newNumberOfUnsetVars = Table.numberOfUnsetVariables();
-				
-			while (newNumberOfUnsetVars != numberOfUnsetVars) {
-				numberOfUnsetVars = newNumberOfUnsetVars;
-				prog.traverseBottomUp(evaluator);
-				newNumberOfUnsetVars = Table.numberOfUnsetVariables();
-			}
-			
-			log.info(Table.getString());
-			
+
 			log.info("SUCCESS!");
 
 		} catch (Exception e) {
 			e.printStackTrace();
-			// Tab.dump();
-			// log.info(GlobalStuff.VirtualFunctions());
 		}
 	}
 
