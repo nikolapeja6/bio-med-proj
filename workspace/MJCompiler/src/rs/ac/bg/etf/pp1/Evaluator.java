@@ -133,7 +133,7 @@ public class Evaluator extends VisitorAdaptor {
 		if(definedExpression){
 			Table.setValue(item.getI1(), value);
 		}
-	
+		
 		expressionStack.clear();
 		Evaluator.definedExpression = true;
 	}

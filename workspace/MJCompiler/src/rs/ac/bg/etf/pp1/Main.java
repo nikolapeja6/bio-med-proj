@@ -73,7 +73,7 @@ public class Main {
 			Evaluator evaluator = new Evaluator();
 			prog.traverseBottomUp(evaluator);
 			int newNumberOfUnsetVars = Table.numberOfUnsetVariables();
-			
+				
 			while (newNumberOfUnsetVars != numberOfUnsetVars) {
 				numberOfUnsetVars = newNumberOfUnsetVars;
 				prog.traverseBottomUp(evaluator);
@@ -84,8 +84,25 @@ public class Main {
 			log.info(Table.getString());
 			
 			
+			int x = 5;
+			for (String string : Table.getInputVarList()) {
+				log.info("==> "+string);
+				Table.setValue(string, x);
+				x*=5;
+			}
 			
-
+			numberOfUnsetVars = Table.numberOfUnsetVariables();
+			prog.traverseBottomUp(evaluator);
+			newNumberOfUnsetVars = Table.numberOfUnsetVariables();
+				
+			while (newNumberOfUnsetVars != numberOfUnsetVars) {
+				numberOfUnsetVars = newNumberOfUnsetVars;
+				prog.traverseBottomUp(evaluator);
+				newNumberOfUnsetVars = Table.numberOfUnsetVariables();
+			}
+			
+			log.info(Table.getString());
+			
 			log.info("SUCCESS!");
 
 		} catch (Exception e) {
