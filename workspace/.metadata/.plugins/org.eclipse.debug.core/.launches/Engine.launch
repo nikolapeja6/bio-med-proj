@@ -8,6 +8,6 @@
 </listAttribute>
 <booleanAttribute key="org.eclipse.jdt.launching.ATTR_USE_START_ON_FIRST_THREAD" value="true"/>
 <stringAttribute key="org.eclipse.jdt.launching.MAIN_TYPE" value="rs.ac.bg.etf.pp1.Engine"/>
-<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="test\rules1.spec"/>
+<stringAttribute key="org.eclipse.jdt.launching.PROGRAM_ARGUMENTS" value="test\rules_flue.spec&#13;&#10;test\rules_giht.spec&#13;&#10;test\rules_alzheimer.spec&#13;&#10;test\rules1.spec"/>
 <stringAttribute key="org.eclipse.jdt.launching.PROJECT_ATTR" value="MJCompiler"/>
 </launchConfiguration>

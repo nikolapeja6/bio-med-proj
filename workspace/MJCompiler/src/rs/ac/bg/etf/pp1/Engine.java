@@ -8,6 +8,7 @@ import java.io.FileReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.nio.file.Files;
+import java.util.Scanner;
 
 import org.apache.log4j.Logger;
 import org.apache.log4j.xml.DOMConfigurator;
@@ -26,6 +27,8 @@ public class Engine {
 	public static Logger log;
 	private static SyntaxNode prog;
 	private static Evaluator evaluator = new Evaluator();
+	private static Scanner in = new Scanner(System.in);
+
 
 	static {
 		DOMConfigurator.configure(Log4JUtils.instance().findLoggerConfigFile());
@@ -65,11 +68,12 @@ public class Engine {
 		int numberOfUnsetVars;
 		int newNumberOfUnsetVars;
 
-		int x = 5;
+		Table.reset();
+				
 		for (String string : Table.getInputVarList()) {
-			log.debug("==> " + string);
-			Table.setValue(string, x);
-			x *= 5;
+			log.info(string + " <== ");
+			double val = in.nextDouble();			
+			Table.setValue(string, val);
 		}
 
 		numberOfUnsetVars = Table.numberOfUnsetVariables();
