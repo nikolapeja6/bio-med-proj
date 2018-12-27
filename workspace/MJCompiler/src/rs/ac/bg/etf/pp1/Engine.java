@@ -24,6 +24,8 @@ import rs.etf.pp1.symboltable.concepts.Struct;
 
 public class Engine {
 
+	private static boolean all = false;
+	
 	public static Logger log;
 	private static SyntaxNode prog;
 	private static Evaluator evaluator = new Evaluator();
@@ -37,7 +39,11 @@ public class Engine {
 	}
 	
 	public static void main(String []args){
-		File specsFile = new File(args[0]);
+		StringBuilder text = new StringBuilder();
+		int i = 0;
+		
+		do{
+		File specsFile = new File(args[i++]);
 		if (!specsFile.exists()) {
 			log.error("Specs file [" + specsFile.getAbsolutePath() + "] not found!");
 			return;
@@ -45,7 +51,9 @@ public class Engine {
 
 		log.info("Specs file: " + specsFile.getAbsolutePath());
 		
-		StringBuilder text = new StringBuilder();
+		
+
+		
 		try(BufferedReader br = new BufferedReader(new FileReader(specsFile))){
 			String line = br.readLine();
 			while(line != null ){
@@ -56,8 +64,11 @@ public class Engine {
 		}catch(Exception e){
 			e.printStackTrace();
 		}
+		} while(all && i < args.length);
 		
 		log.debug(text.toString());
+		System.out.println(text.toString());
+		
 		
 		initRules(text.toString());
 		
@@ -123,6 +134,7 @@ public class Engine {
 
 			if (!Table.ok) {
 				log.error("Aborted.");
+				System.out.println("Aborted");
 				System.out.println(Table.getString());
 				return;
 			}

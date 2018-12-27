@@ -10,4 +10,4 @@ e1 := Lack_of_Empathy OR Lack_of_Understanding_Social_Cues
 f1 := Repetitive_Movements
 g1 := Social_Withdrawal
 
-autism := a1 * 0.1 + b1 * 0.1 + c1 * 0.5 + d1 * 0.2 + e1 * 0.6 + f1 * 0.6 +  g1 * 0.4 >= 90
+autism := a1 * 0.1 + b1 * 0.1 + c1 * 0.5 + d1 * 0.2 + e1 * 0.6 + f1 * 0.6 +  g1 * 0.4 >= 0.9

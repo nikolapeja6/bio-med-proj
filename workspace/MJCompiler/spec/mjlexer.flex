@@ -65,7 +65,7 @@ import org.apache.log4j.*;
  ([a-z]|[A-Z])([a-z|A-Z|0-9|_])* 			{yybegin(COMMAND); return new_symbol(sym.IDENT, yytext());}
 <COMMAND> ([a-z]|[A-Z])([a-z|A-Z|0-9|_])* 			{yybegin(COMMAND); return new_symbol(sym.IDENT, yytext());}
 
-<COMMAND>  [0-9]+ 							{yybegin(COMMAND); return new_symbol(sym.NUMBER, new Integer(yytext()));}
+<COMMAND>  [0-9]+\.[0-9]+ | [0-9]+				{yybegin(COMMAND); return new_symbol(sym.NUMBER, yytext());}
  
 
 <COMMAND> "\r\n"		{ yybegin(YYINITIAL); return new_symbol(sym.RULE_END, "\\n");}

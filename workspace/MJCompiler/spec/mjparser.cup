@@ -72,7 +72,7 @@ scan with {:
 
 
 /** LITERALS */
-terminal Integer NUMBER;
+terminal String NUMBER;
 terminal String BOOL;
 
 

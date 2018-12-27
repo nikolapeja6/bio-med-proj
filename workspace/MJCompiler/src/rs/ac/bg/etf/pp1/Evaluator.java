@@ -11,7 +11,7 @@ public class Evaluator extends VisitorAdaptor {
 	
 	@Override
 	public void visit(ConstNum item){
-		expressionStack.push(""+item.getN1().intValue());
+		expressionStack.push(""+ new Double(item.getN1()));
 	}
 	
 	@Override
