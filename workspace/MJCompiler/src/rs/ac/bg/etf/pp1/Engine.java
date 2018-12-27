@@ -61,7 +61,9 @@ public class Engine {
 		
 		initRules(text.toString());
 		
+		while(true){
 		evaluateState();
+		}
 	}
 
 	public static void evaluateState() {
@@ -71,7 +73,9 @@ public class Engine {
 		Table.reset();
 				
 		for (String string : Table.getInputVarList()) {
+			
 			log.info(string + " <== ");
+			System.out.print(string + " <== ");
 			double val = in.nextDouble();			
 			Table.setValue(string, val);
 		}
@@ -86,6 +90,8 @@ public class Engine {
 			newNumberOfUnsetVars = Table.numberOfUnsetVariables();
 		}
 
+		System.out.println(Table.getString());
+		
 		log.info(Table.getString());
 	}
 	
@@ -113,9 +119,11 @@ public class Engine {
 
 			Table.reset();
 			log.info(Table.getString());
+			System.out.println(Table.getString());
 
 			if (!Table.ok) {
 				log.error("Aborted.");
+				System.out.println(Table.getString());
 				return;
 			}
 
@@ -131,8 +139,10 @@ public class Engine {
 
 			Table.set();
 			log.info(Table.getString());
+			System.out.println(Table.getString());
 
 			log.info("SUCCESS!");
+			System.out.println("SUCCESS!");
 
 		} catch (Exception e) {
 			e.printStackTrace();
