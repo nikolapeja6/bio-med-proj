@@ -1,4 +1,4 @@
-package com.crunchify.tutorial;
+package rs.ac.bg.etf.rbm.rest;
 
 import java.io.IOException;
 import java.net.InetAddress;
@@ -19,6 +19,10 @@ import com.sun.net.httpserver.HttpServer;
  
 @SuppressWarnings("restriction")
 public class JerseyEmbeddedHTTPServerCrunchify {
+	
+	private static final int port = 8080;
+	private static final String packageName = "rs.ac.bg.etf.rbm.rest";
+	
  
     public static void main(String[] args) throws IOException {
         System.out.println("Starting Crunchify's Embedded Jersey HTTPServer...\n");
@@ -29,14 +33,14 @@ public class JerseyEmbeddedHTTPServerCrunchify {
     }
  
         private static HttpServer createHttpServer() throws IOException {
-        ResourceConfig crunchifyResourceConfig = new PackagesResourceConfig("com.crunchify.tutorial");
+        ResourceConfig crunchifyResourceConfig = new PackagesResourceConfig(packageName);
         // This tutorial required and then enable below line: http://crunchify.me/1VIwInK
         //crunchifyResourceConfig.getContainerResponseFilters().add(CrunchifyCORSFilter.class);
         return HttpServerFactory.create(getCrunchifyURI(), crunchifyResourceConfig);
     }
  
     private static URI getCrunchifyURI() {
-        return UriBuilder.fromUri("http://" + crunchifyGetHostName() + "/").port(8085).build();
+        return UriBuilder.fromUri("http://" + crunchifyGetHostName() + "/").port(port).build();
     }
  
     private static String crunchifyGetHostName() {

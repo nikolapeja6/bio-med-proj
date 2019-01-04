@@ -4,13 +4,16 @@
 
 void Main()
 {
-	String base_url = "http://localhost:8085/";
+	String base_url = "http://localhost:8080/";
 	
-	String greeting = "api";
+	String api = "api";
+	String method = "api/aaa";
 	
-	String url = $@"{base_url}{greeting}";
+	String pars = "?name={0}";
+	
+	String url = $@"{base_url}{method}";
 
-	System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(url);
+	System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(url+String.Format(pars, "some_random_name"));
 	//System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(UrlBaseDatabricks);// + String.Format(urlTableInfo, "default", "default__indexed_table_index_id__", "integer"));
              		
 			System.Net.HttpWebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
@@ -31,7 +34,7 @@ void Main()
             dataStream.Close();
             response.Close();
 
-           Console.WriteLine(FormatJson(responseFromServer));
+           Console.WriteLine(responseFromServer);
 }
 
 
