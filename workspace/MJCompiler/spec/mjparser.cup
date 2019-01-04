@@ -79,6 +79,7 @@ terminal String BOOL;
 /** PUNCTUATION */
 terminal COMMA, SEMICOLON, DOT;
 terminal RULE_END;
+terminal EXCLAMATION;
 
 
 /** OPERATORS */
@@ -151,7 +152,10 @@ Program ::= (Program1)Rule
 			(Program2) Program Rule
 			;
 			
-Rule ::= (Rule1) IDENT ASSIGN Condition RULE_END;
+Rule ::= (Rule1) IDENT ASSIGN Condition RULE_END
+			|
+			(OutputRule) EXCLAMATION IDENT ASSIGN Condition RULE_END
+			;
 
 
 Condition ::= 	(ConditionMultiple) CondTerm ConditionList

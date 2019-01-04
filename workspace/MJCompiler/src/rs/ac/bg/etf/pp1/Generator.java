@@ -22,19 +22,21 @@ public class Generator extends VisitorAdaptor {
 	
 	@Override
 	public void visit(IdentFactor f){
-		f.myobj = new MyObj();
-
-		f.myobj.name = f.getI1();
 		Table.insertRVal(f.getI1());
 	}
 	
 	
 	@Override
 	public void visit(Rule1 rule){
-		rule.myobj = new MyObj();
-
-		rule.myobj.name = rule.getI1();
 		Table.insertLVal(rule.getI1());
 	}
+	
+	@Override
+	public void visit(OutputRule rule){
+		Table.insertLVal(rule.getI1());
+		Table.insertOutVal(rule.getI1());
+
+	}
+	
 
 }

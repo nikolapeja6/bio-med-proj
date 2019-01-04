@@ -9,6 +9,6 @@ e2 := mistakes_with_taking_medication
 f2 := trouble_with_daily_commute
 
 
-cognitive_deterioration := a2 + b2 + c2 + d2 + e2 + f2 >= 3
+!cognitive_deterioration := a2 + b2 + c2 + d2 + e2 + f2 >= 3
 
-possible_alzheimers := cognitive_deterioration
+!possible_alzheimers := cognitive_deterioration

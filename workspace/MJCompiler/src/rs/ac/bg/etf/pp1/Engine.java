@@ -24,7 +24,7 @@ import rs.etf.pp1.symboltable.concepts.Struct;
 
 public class Engine {
 
-	private static boolean all = false;
+	private static boolean all = true;
 	
 	public static Logger log;
 	private static SyntaxNode prog;
@@ -39,6 +39,15 @@ public class Engine {
 	}
 	
 	public static void main(String []args){
+
+		readSpecsAndEvaluateStates(args);
+		
+		while(true){
+		evaluateState();
+		}
+	}
+	
+	public static void readSpecsAndEvaluateStates(String[] args){
 		StringBuilder text = new StringBuilder();
 		int i = 0;
 		
@@ -71,10 +80,6 @@ public class Engine {
 		
 		
 		initRules(text.toString());
-		
-		while(true){
-		evaluateState();
-		}
 	}
 
 	public static void evaluateState() {

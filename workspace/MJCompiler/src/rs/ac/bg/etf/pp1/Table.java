@@ -17,6 +17,7 @@ public class Table {
 
 	public static LinkedHashMap<String, Double> table = new LinkedHashMap<>();
 	public static LinkedHashSet<String> lValues = new LinkedHashSet<>();
+	public static LinkedHashSet<String> outVars = new LinkedHashSet<>();
 
 	public static void insertRVal(String name) {
 		if (!table.containsKey(name))
@@ -30,6 +31,10 @@ public class Table {
 		}
 		insertRVal(name);
 		lValues.add(name);
+	}
+	
+	public static void insertOutVal(String name){
+		outVars.add(name);
 	}
 
 	public static void reset() {
