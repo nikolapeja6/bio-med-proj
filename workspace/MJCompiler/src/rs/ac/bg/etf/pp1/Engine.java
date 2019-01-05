@@ -8,6 +8,10 @@ import java.io.FileReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import org.apache.log4j.Logger;
@@ -43,7 +47,7 @@ public class Engine {
 		readSpecsAndEvaluateStates(args);
 		
 		while(true){
-		evaluateState();
+		evaluateStateInteractive();
 		}
 	}
 	
@@ -81,10 +85,25 @@ public class Engine {
 		
 		initRules(text.toString());
 	}
+	
+	public static void evaluateState(HashMap<String, Double> data){
+		Table.reset();
 
-	public static void evaluateState() {
-		int numberOfUnsetVars;
-		int newNumberOfUnsetVars;
+		Iterator it = data.entrySet().iterator();
+
+		System.out.println("****");
+		
+	    while (it.hasNext()) {
+	        Map.Entry pair = (Map.Entry)it.next();
+	        
+	        System.out.println("*"+(String)pair.getKey());
+	        Table.setValue((String)pair.getKey(), (double)pair.getValue());
+	    }
+	    
+	    evaluateState();
+	}
+
+	public static void evaluateStateInteractive() {
 
 		Table.reset();
 				
@@ -95,6 +114,14 @@ public class Engine {
 			double val = in.nextDouble();			
 			Table.setValue(string, val);
 		}
+		
+		evaluateState();
+		
+	}
+	
+	public static void evaluateState(){
+		int newNumberOfUnsetVars;
+		int numberOfUnsetVars;
 
 		numberOfUnsetVars = Table.numberOfUnsetVariables();
 		prog.traverseBottomUp(evaluator);

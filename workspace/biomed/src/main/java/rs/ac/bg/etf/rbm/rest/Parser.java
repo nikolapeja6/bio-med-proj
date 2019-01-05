@@ -7,7 +7,7 @@ public class Parser {
 	private static Gson gson = new Gson();
 	public static final BaseContainer base = new BaseContainer();
 	
-	private static BaseContainer deserialize(String string, Class cls) {
+	public static Object deserialize(String string, Class cls) {
 		try {
 			return gson.fromJson(string, cls);
 		}

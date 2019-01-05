@@ -33,8 +33,8 @@ public class Table {
 		insertRVal(name);
 		lValues.add(name);
 	}
-	
-	public static void insertOutVal(String name){
+
+	public static void insertOutVal(String name) {
 		outVars.add(name);
 	}
 
@@ -82,7 +82,21 @@ public class Table {
 	}
 
 	public static void setValue(String name, double val) {
-		tmp_table.put(name, val);
+		String key = null;
+
+		Iterator it = tmp_table.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry pair = (Map.Entry) it.next();
+			if (((String) pair.getKey()).equals(name)) {
+				key = (String) pair.getKey();
+				break;
+			}
+		}
+		if(key == null){
+			key = name;
+		}
+		
+		tmp_table.put(key, val);
 	}
 
 	public static double getValue(String name) {
@@ -107,25 +121,25 @@ public class Table {
 	public static void flush() {
 		table = new LinkedHashMap<>();
 	}
-	
-	public static Iterable<String> getDependenciesForState(String targetState){
+
+	public static Iterable<String> getDependenciesForState(String targetState) {
 		dependencies.clear();
 		dependencies.add(targetState);
-		
+
 		int oldSize, newSize;
 		newSize = dependencies.size();
 		Dependency dependencyVisitor = new Dependency();
-		
-		do{
+
+		do {
 			oldSize = newSize;
-			
+
 			Engine.prog.traverseBottomUp(dependencyVisitor);
-			
+
 			newSize = dependencies.size();
-		}while(oldSize != newSize);
-		
+		} while (oldSize != newSize);
+
 		dependencies.removeAll(lValues);
-		
+
 		return dependencies;
 	}
 }
