@@ -92,10 +92,10 @@ public class Table {
 				break;
 			}
 		}
-		if(key == null){
+		if (key == null) {
 			key = name;
 		}
-		
+
 		tmp_table.put(key, val);
 	}
 
@@ -122,9 +122,16 @@ public class Table {
 		table = new LinkedHashMap<>();
 	}
 
-	public static Iterable<String> getDependenciesForState(String targetState) {
+	public static List<String> getDependenciesForState(String targetState) {
 		dependencies.clear();
-		dependencies.add(targetState);
+
+		if (targetState.equals("all")) {
+			for (String state : Table.outVars) {
+				dependencies.add(state);
+			}
+		} else {
+			dependencies.add(targetState);
+		}
 
 		int oldSize, newSize;
 		newSize = dependencies.size();
@@ -140,6 +147,13 @@ public class Table {
 
 		dependencies.removeAll(lValues);
 
-		return dependencies;
+		LinkedList<String> dep = new LinkedList<>();
+		for(String s: dependencies){
+			if(Table.getValue(s) == Table.MAGIC_NUMBER){
+				dep.add(s);
+			}
+		}
+
+		return dep;
 	}
 }

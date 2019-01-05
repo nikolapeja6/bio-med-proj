@@ -18,7 +18,7 @@ void Main()
 	
 
 {
-	System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(base_url+String.Format(dependencies, "autism")); //"autisma"));
+	System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(base_url+String.Format(dependencies, "autism")); //"autism")); //"autisma"));
 	       		
 			System.Net.HttpWebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
 
@@ -55,7 +55,7 @@ void Main()
     {"Lack of Empathy",								0},
     {"Lack of Understanding Social Cues",			1},
     {"Repetitive Movements",						1},
-    {"Social Withdrawal",							1},
+    //{"Social Withdrawal",							1},
 
 }};
 			var content = Newtonsoft.Json.JsonConvert.SerializeObject(obj);

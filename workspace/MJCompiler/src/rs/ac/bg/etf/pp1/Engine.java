@@ -101,6 +101,7 @@ public class Engine {
 	    }
 	    
 	    evaluateState();
+	    
 	}
 
 	public static void evaluateStateInteractive() {
