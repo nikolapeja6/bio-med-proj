@@ -12,8 +12,7 @@ public class States extends BaseContainer {
 	public LinkedList<String> states = null;
 	
 	public States(){
-		setDescription("List of all the states.");
-		System.out.println(getDescription());
+		description = "List of all the states.";
 	}
 	
 	public States(Iterable<String> states){

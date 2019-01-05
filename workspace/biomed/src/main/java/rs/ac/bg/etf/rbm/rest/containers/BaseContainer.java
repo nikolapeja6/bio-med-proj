@@ -8,13 +8,4 @@ public class BaseContainer {
 	@SerializedName("Description")
 	@Expose
 	public String description = "Hello! This is the state evaluation system. Irasshaimase!";
-
-	public String getDescription() {
-		return description;
-	}
-
-	public void setDescription(String description) {
-		this.description = description;
-	}
-	
 }

@@ -18,6 +18,7 @@ public class Table {
 	public static LinkedHashMap<String, Double> table = new LinkedHashMap<>();
 	public static LinkedHashSet<String> lValues = new LinkedHashSet<>();
 	public static LinkedHashSet<String> outVars = new LinkedHashSet<>();
+	public static LinkedHashSet<String> dependencies = new LinkedHashSet<>();
 
 	public static void insertRVal(String name) {
 		if (!table.containsKey(name))
@@ -105,5 +106,26 @@ public class Table {
 
 	public static void flush() {
 		table = new LinkedHashMap<>();
+	}
+	
+	public static Iterable<String> getDependenciesForState(String targetState){
+		dependencies.clear();
+		dependencies.add(targetState);
+		
+		int oldSize, newSize;
+		newSize = dependencies.size();
+		Dependency dependencyVisitor = new Dependency();
+		
+		do{
+			oldSize = newSize;
+			
+			Engine.prog.traverseBottomUp(dependencyVisitor);
+			
+			newSize = dependencies.size();
+		}while(oldSize != newSize);
+		
+		dependencies.removeAll(lValues);
+		
+		return dependencies;
 	}
 }

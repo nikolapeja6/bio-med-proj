@@ -27,7 +27,7 @@ public class Engine {
 	private static boolean all = true;
 	
 	public static Logger log;
-	private static SyntaxNode prog;
+	public static SyntaxNode prog;
 	private static Evaluator evaluator = new Evaluator();
 	private static Scanner in = new Scanner(System.in);
 

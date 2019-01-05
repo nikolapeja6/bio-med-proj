@@ -11,6 +11,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import rs.ac.bg.etf.pp1.Table;
+import rs.ac.bg.etf.rbm.rest.containers.Dependencies;
 import rs.ac.bg.etf.rbm.rest.containers.States;
  
 @Path("")
@@ -24,27 +25,18 @@ public class BiomedRestApi {
     
     @GET 
     @Produces(MediaType.APPLICATION_JSON)
-    @Path("/state")
+    @Path("/states")
     public String listStates() {
     	States state = new States(Table.outVars);
         return Parser.serialize(state);
-    }
-    
-    
-    /*
-    @GET
-    @Consumes(MediaType.TEXT_PLAIN)
-    @Produces(MediaType.TEXT_PLAIN)
-    public String get(String name){
-    	return "\n Hello "+name;
-    }
-    */
-    
+    }    
     
     @GET 
-    @Path("/aaa")
-    public String create(@QueryParam("name") String name) {
-        return "param1 = " + name;
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/dependencies")
+    public String create(@QueryParam("target") String targetName ) {
+    	Dependencies dep = new Dependencies(targetName, Table.getDependenciesForState(targetName));
+        return Parser.serialize(dep);
     }
  
 }

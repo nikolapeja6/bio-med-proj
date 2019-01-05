@@ -8,15 +8,14 @@ void Main()
 	
 	String api = "api";
 	String method = "api/aaa";
-	String state = "state";
-	
-	String pars = "?name={0}";
-	
-	String url = $@"{base_url}{state}";
+	String states = "states";
+	String dependencies = "dependencies?target={0}";
 
-	System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(url+String.Format(pars, "some_random_name"));
-	//System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(UrlBaseDatabricks);// + String.Format(urlTableInfo, "default", "default__indexed_table_index_id__", "integer"));
-             		
+	
+
+
+	System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(base_url+String.Format(dependencies, "autism")); //"autisma"));
+	       		
 			System.Net.HttpWebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
 
 			var Status = ((System.Net.HttpWebResponse)response).StatusDescription;
