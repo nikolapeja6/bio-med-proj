@@ -6,4 +6,4 @@ b3 := swelling_of_legs OR swelling_of_feet
 c3 := Farigue
 d3 := chest_pain
 
-kidney_failure := b3 OR a3 AND c3 AND d3
+!kidney_failure := b3 OR a3 AND c3 AND d3

@@ -8,6 +8,10 @@ import java.io.FileReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.nio.file.Files;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Scanner;
 
 import org.apache.log4j.Logger;
@@ -24,10 +28,10 @@ import rs.etf.pp1.symboltable.concepts.Struct;
 
 public class Engine {
 
-	private static boolean all = false;
+	private static boolean all = true;
 	
 	public static Logger log;
-	private static SyntaxNode prog;
+	public static SyntaxNode prog;
 	private static Evaluator evaluator = new Evaluator();
 	private static Scanner in = new Scanner(System.in);
 
@@ -39,6 +43,15 @@ public class Engine {
 	}
 	
 	public static void main(String []args){
+
+		readSpecsAndEvaluateStates(args);
+		
+		while(true){
+		evaluateStateInteractive();
+		}
+	}
+	
+	public static void readSpecsAndEvaluateStates(String[] args){
 		StringBuilder text = new StringBuilder();
 		int i = 0;
 		
@@ -71,15 +84,27 @@ public class Engine {
 		
 		
 		initRules(text.toString());
+	}
+	
+	public static void evaluateState(HashMap<String, Double> data){
+		Table.reset();
+
+		Iterator it = data.entrySet().iterator();
+
+		System.out.println("****");
 		
-		while(true){
-		evaluateState();
-		}
+	    while (it.hasNext()) {
+	        Map.Entry pair = (Map.Entry)it.next();
+	        
+	        System.out.println("*"+(String)pair.getKey());
+	        Table.setValue((String)pair.getKey(), (double)pair.getValue());
+	    }
+	    
+	    evaluateState();
+	    
 	}
 
-	public static void evaluateState() {
-		int numberOfUnsetVars;
-		int newNumberOfUnsetVars;
+	public static void evaluateStateInteractive() {
 
 		Table.reset();
 				
@@ -90,6 +115,14 @@ public class Engine {
 			double val = in.nextDouble();			
 			Table.setValue(string, val);
 		}
+		
+		evaluateState();
+		
+	}
+	
+	public static void evaluateState(){
+		int newNumberOfUnsetVars;
+		int numberOfUnsetVars;
 
 		numberOfUnsetVars = Table.numberOfUnsetVariables();
 		prog.traverseBottomUp(evaluator);

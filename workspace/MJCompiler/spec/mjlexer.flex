@@ -60,6 +60,7 @@ import org.apache.log4j.*;
 <COMMAND>  "."		{yybegin(COMMAND); return new_symbol(sym.DOT, yytext());}
 <COMMAND>  "("		{yybegin(COMMAND); return new_symbol(sym.OPEN_PARENTHESES, yytext());}
 <COMMAND>  ")"		{yybegin(COMMAND); return new_symbol(sym.CLOSE_PARENTHESES, yytext());}
+"!"					{yybegin(COMMAND); return new_symbol(sym.EXCLAMATION, yytext());}
 
 <COMMAND>  "true"|"false" 					{yybegin(COMMAND); return new_symbol(sym.BOOL, yytext());}
  ([a-z]|[A-Z])([a-z|A-Z|0-9|_])* 			{yybegin(COMMAND); return new_symbol(sym.IDENT, yytext());}

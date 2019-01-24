@@ -138,5 +138,20 @@ public class Evaluator extends VisitorAdaptor {
 		Evaluator.definedExpression = true;
 	}
 	
+	@Override
+	public void visit(OutputRule item) {
+		double value = Double.parseDouble(expressionStack.pop());
+		if(expressionStack.size() != 0){
+			Engine.log.error("Inalid expression - expression stack size not 0 at end of eval");
+		}
+		
+		if(definedExpression){
+			Table.setValue(item.getI1(), value);
+		}
+		
+		expressionStack.clear();
+		Evaluator.definedExpression = true;
+	}
+	
 
 }

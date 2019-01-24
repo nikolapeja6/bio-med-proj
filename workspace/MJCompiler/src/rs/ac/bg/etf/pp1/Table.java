@@ -17,6 +17,8 @@ public class Table {
 
 	public static LinkedHashMap<String, Double> table = new LinkedHashMap<>();
 	public static LinkedHashSet<String> lValues = new LinkedHashSet<>();
+	public static LinkedHashSet<String> outVars = new LinkedHashSet<>();
+	public static LinkedHashSet<String> dependencies = new LinkedHashSet<>();
 
 	public static void insertRVal(String name) {
 		if (!table.containsKey(name))
@@ -30,6 +32,10 @@ public class Table {
 		}
 		insertRVal(name);
 		lValues.add(name);
+	}
+
+	public static void insertOutVal(String name) {
+		outVars.add(name);
 	}
 
 	public static void reset() {
@@ -76,11 +82,28 @@ public class Table {
 	}
 
 	public static void setValue(String name, double val) {
-		tmp_table.put(name, val);
+		String key = null;
+
+		Iterator it = tmp_table.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry pair = (Map.Entry) it.next();
+			if (((String) pair.getKey()).equals(name)) {
+				key = (String) pair.getKey();
+				break;
+			}
+		}
+		if (key == null) {
+			key = name;
+		}
+
+		tmp_table.put(key, val);
 	}
 
 	public static double getValue(String name) {
-		return tmp_table.get(name);
+		if(tmp_table.containsKey(name))
+			return tmp_table.get(name);
+		else
+			return MAGIC_NUMBER;
 	}
 
 	public static String getString() {
@@ -100,5 +123,40 @@ public class Table {
 
 	public static void flush() {
 		table = new LinkedHashMap<>();
+	}
+
+	public static List<String> getDependenciesForState(String targetState) {
+		dependencies.clear();
+
+		if (targetState.equals("all")) {
+			for (String state : Table.outVars) {
+				dependencies.add(state);
+			}
+		} else {
+			dependencies.add(targetState);
+		}
+
+		int oldSize, newSize;
+		newSize = dependencies.size();
+		Dependency dependencyVisitor = new Dependency();
+
+		do {
+			oldSize = newSize;
+
+			Engine.prog.traverseBottomUp(dependencyVisitor);
+
+			newSize = dependencies.size();
+		} while (oldSize != newSize);
+
+		dependencies.removeAll(lValues);
+
+		LinkedList<String> dep = new LinkedList<>();
+		for(String s: dependencies){
+			if(Table.getValue(s) == Table.MAGIC_NUMBER){
+				dep.add(s);
+			}
+		}
+
+		return dep;
 	}
 }
