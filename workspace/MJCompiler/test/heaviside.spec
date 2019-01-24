@@ -1,8 +1,8 @@
 
 // Heaviside unit step function.
 
-ls := x  < 0
-gr := x  > 0
-eq := x == 0
+ls := input  < 0
+gr := input  > 0
+eq := input == 0
 
-!y := ls*0 + eq*0.5 + gr*1
+!heaviside := ls*0 + eq*0.5 + gr*1

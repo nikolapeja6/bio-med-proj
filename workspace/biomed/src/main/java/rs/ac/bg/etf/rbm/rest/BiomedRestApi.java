@@ -79,9 +79,11 @@ public class BiomedRestApi {
 		double result = Table.getValue(targetName);
 		if(result != Table.MAGIC_NUMBER){
 			ret.insertResult(targetName,  result);
-		}else{
+		}
+		else {
 			ret.insertUnresolvedDependency(new Dependencies(targetName, Table.getDependenciesForState(targetName)));
 		}
+		
 	}
 
 }

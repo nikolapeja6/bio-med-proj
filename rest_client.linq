@@ -4,7 +4,6 @@
   <Namespace>System.Net.Http</Namespace>
 </Query>
 
-
 void Main()
 {
 	String base_url = "http://localhost:8080/";
@@ -16,9 +15,9 @@ void Main()
 	String evaluate = "evaluate";
 
 	
-
+Console.WriteLine("Request 1");
 {
-	System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(base_url+String.Format(dependencies, "autism")); //"autism")); //"autisma"));
+	System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(base_url+String.Format(dependencies, "heaviside")); //"autism")); //"autisma"));
 	       		
 			System.Net.HttpWebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
 
@@ -41,6 +40,12 @@ void Main()
            Console.WriteLine(FormatJson(responseFromServer));
 		   }
 		   
+		   
+		   Console.WriteLine();
+		   Console.WriteLine();
+		   Console.WriteLine("Request 2");
+		   
+		   
 		   {
 	System.Net.HttpWebRequest request = (System.Net.HttpWebRequest)System.Net.WebRequest.Create(base_url+String.Format(evaluate)); //"autisma"));
 	       		Object obj = new{ Target = "autism",
@@ -56,6 +61,11 @@ void Main()
     {"Lack of Understanding Social Cues",			1},
     {"Repetitive Movements",						1},
     //{"Social Withdrawal",							1},
+	//{"back pain", 									1},
+	//{"burning urination",							1},
+	//{"blood in urine", 								1},
+	//{"Fever", 										0}
+	
 
 }};
 			var content = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
@@ -67,6 +77,8 @@ void Main()
 			{
 			 	stream.Write(data, 0, data.Length);
 			}
+			
+			Console.WriteLine(FormatJson(content));
 			System.Net.HttpWebResponse response = (System.Net.HttpWebResponse)request.GetResponse();
 
 			var Status = ((System.Net.HttpWebResponse)response).StatusDescription;

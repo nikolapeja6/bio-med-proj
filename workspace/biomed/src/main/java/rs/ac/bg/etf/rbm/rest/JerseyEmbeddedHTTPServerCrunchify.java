@@ -35,7 +35,8 @@ public class JerseyEmbeddedHTTPServerCrunchify {
 			"..\\MJCompiler\\test\\rules_flue.spec",
 			"..\\MJCompiler\\test\\rules_giht.spec",
 			"..\\MJCompiler\\test\\rules_alzheimer.spec",
-			"..\\MJCompiler\\test\\rules1.spec"
+			"..\\MJCompiler\\test\\rules1.spec",
+			"..\\MJCompiler\\test\\heaviside.spec",
 			};
 	
  

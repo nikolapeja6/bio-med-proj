@@ -5,6 +5,8 @@ import java.util.LinkedList;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import rs.ac.bg.etf.pp1.Table;
+
 public class Dependencies extends BaseContainer {
 	
 	@SerializedName("Target")
@@ -29,7 +31,10 @@ public class Dependencies extends BaseContainer {
 			this.dependencies.add(dependency.replace('_', ' '));
 		}
 		
-		if(this.dependencies.size() == 1 && this.dependencies.contains(target)){
+		System.out.println(Table.table.containsKey(target));
+		
+		if((this.dependencies.size() <= 1 && this.dependencies.contains(target)) || (!Table.table.containsKey(target))){
+			System.out.println("aaa");
 			this.dependencies.clear();
 			description = String.format("The state '%s' has no dependencies. Either it is an input state, or the name is invalid.", target);
 		}

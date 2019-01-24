@@ -36,7 +36,9 @@ public class EvaluationResults extends BaseContainer {
 	}
 	
 	public void insertUnresolvedDependency(Dependencies dep){
-		dep.description = "The data points that were not provided in the request, but are needed in the evaluation of "+dep.target;
+		if(dep.dependencies.size() != 0){
+			dep.description = "The data points that were not provided in the request, but are needed in the evaluation of "+dep.target;
+		}
 		unresolved.add(dep);
 	}
 	

@@ -100,7 +100,10 @@ public class Table {
 	}
 
 	public static double getValue(String name) {
-		return tmp_table.get(name);
+		if(tmp_table.containsKey(name))
+			return tmp_table.get(name);
+		else
+			return MAGIC_NUMBER;
 	}
 
 	public static String getString() {
